@@ -1,0 +1,19 @@
+{
+	"name": "@repo/design-system",
+	"version": "0.0.1",
+	"license": "MIT",
+	"type": "module",
+	"scripts": {
+		"clean": "git clean -xdf .cache .turbo node_modules"
+	},
+	"exports": {
+		"./style.css": "./style.css"
+	},
+	"dependencies": {
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"tailwind-merge": "^3.2.0",
+		"tailwindcss": "^4.1.4",
+		"tailwindcss-animate": "^1.0.7"
+	}
+}

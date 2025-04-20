@@ -1,0 +1,16 @@
+{
+	"name": "@repo/server",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"dev": "convex dev",
+		"seed": "npx convex dev --once && npx convex import --table tasks sampleData.jsonl"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"convex": "^1.19.0"
+	}
+}

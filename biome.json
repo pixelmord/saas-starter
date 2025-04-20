@@ -9,7 +9,7 @@
 		"ignoreUnknown": false,
 		"includes": [
 			"**/*",
-			"!apps/web/convex/_generated/**/*",
+			"!apps/server/convex/_generated/**/*",
 			"!apps/web/app/routeTree.gen.ts"
 		]
 	},
