@@ -5,17 +5,31 @@
 		"build": {
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
-			"outputs": [".next/**", "!.next/cache/**"]
-		},
-		"lint": {
-			"dependsOn": ["^lint"]
+			"outputs": ["dist/**"]
 		},
 		"check-types": {
 			"dependsOn": ["^check-types"]
 		},
+		"clean": {
+			"cache": false
+		},
 		"dev": {
 			"cache": false,
 			"persistent": true
+		},
+		"start": {
+			"dependsOn": ["^build"]
+		},
+		"test": {
+			"dependsOn": ["transit", "@repo/vitest-config#build"],
+			"outputs": ["coverage.json"]
+		},
+		"transit": {
+			"dependsOn": ["^transit"]
+		},
+		"ui-add": {
+			"cache": false,
+			"interactive": true
 		}
 	}
 }
