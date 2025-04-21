@@ -26,7 +26,7 @@ jobs:
     - name: Set up pnpm
       uses: pnpm/action-setup@v4
       with:
-        version: 9 # Specify pnpm version if needed
+        version: 9.15.9 # Specify pnpm version if needed
 
     - name: Install dependencies
       run: pnpm install # Use pnpm install
