@@ -10,6 +10,7 @@
 		"list": "node scripts/dev.js list",
 		"generate": "node scripts/dev.js generate",
 		"parse-prd": "node scripts/dev.js parse-prd",
+		"size-limit": "turbo run size-limit",
 		"test": "turbo run test",
 		"view-report": "turbo run view-report"
 	},
