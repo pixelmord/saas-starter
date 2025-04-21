@@ -11,3 +11,4 @@ node_modules
 .eslintcache
 .output
 .vinxi
+stats.html

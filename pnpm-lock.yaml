@@ -175,6 +175,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.1.0(react@19.1.0)
+      rollup-plugin-visualizer:
+        specifier: ^5.14.0
+        version: 5.14.0(rollup@4.40.0)
       tailwindcss:
         specifier: ^4.1.4
         version: 4.1.4

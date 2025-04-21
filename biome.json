@@ -10,7 +10,8 @@
 		"includes": [
 			"**/*",
 			"!apps/server/convex/_generated/**/*",
-			"!apps/web/app/routeTree.gen.ts"
+			"!apps/web/src/routeTree.gen.ts",
+			"!scripts/**/*"
 		]
 	},
 	"formatter": {

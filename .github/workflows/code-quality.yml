@@ -27,9 +27,5 @@ jobs:
     - name: Install dependencies
       run: pnpm install
 
-    - name: Run Linter (ESLint)
-      run: pnpm lint # Assumes you have a pnpm script named 'lint'
-
-    # Optional: Add a formatter check if you use one (e.g., Prettier)
-    # - name: Check Formatting (Prettier)
-    #   run: pnpm format:check # Assumes a pnpm script named 'format:check'
+    - name: Run Linter (Biome)
+      run: pnpm lint
