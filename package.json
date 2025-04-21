@@ -12,7 +12,8 @@
 		"parse-prd": "node scripts/dev.js parse-prd",
 		"size-limit": "turbo run size-limit",
 		"test": "turbo run test",
-		"view-report": "turbo run view-report"
+		"view-report": "turbo run view-report",
+		"ui-add": "turbo run ui-add"
 	},
 	"devDependencies": {
 		"turbo": "^2.5.0",
