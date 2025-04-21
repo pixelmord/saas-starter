@@ -5,7 +5,7 @@
 		"build": {
 			"dependsOn": ["^build"],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
-			"outputs": ["dist/**"]
+			"outputs": ["dist/**", ".output/**", ".vinxi/**"]
 		},
 		"check-types": {
 			"dependsOn": ["^check-types"]
@@ -16,6 +16,9 @@
 		"dev": {
 			"cache": false,
 			"persistent": true
+		},
+		"size-limit": {
+			"dependsOn": ["build"]
 		},
 		"start": {
 			"dependsOn": ["^build"]

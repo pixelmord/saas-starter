@@ -1,0 +1,35 @@
+name: Bundle Size Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  size:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 9.15.9
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Build project
+      run: pnpm build # Assumes you have a 'build' script
+
+    - name: Check bundle size (Size Limit)
+      run: pnpm size-limit # Assumes size-limit is configured in package.json and is a dev dependency
+      # Or use 'pnpm size' if you have a dedicated script
