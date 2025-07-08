@@ -1,8 +1,15 @@
+import { Toaster } from "@repo/ui/components/ui/sonner";
 import type { QueryClient } from "@tanstack/react-query";
-import { createRootRouteWithContext } from "@tanstack/react-router";
-import { Outlet, ScrollRestoration } from "@tanstack/react-router";
-import { Meta, Scripts } from "@tanstack/react-start";
+import {
+	createRootRouteWithContext,
+	HeadContent,
+	Outlet,
+	Scripts,
+	useRouterState,
+} from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import type * as React from "react";
+import { Loader } from "@/components/loader";
 import appCss from "../style.css?url";
 
 export const Route = createRootRouteWithContext<{
@@ -33,9 +40,12 @@ export const Route = createRootRouteWithContext<{
 });
 
 function RootComponent() {
+	const isFetching = useRouterState({ select: (s) => s.isLoading });
 	return (
 		<RootDocument>
-			<Outlet />
+			<div className="grid h-svh grid-rows-[auto_1fr]">
+				{isFetching ? <Loader /> : <Outlet />}
+			</div>
 		</RootDocument>
 	);
 }
@@ -44,11 +54,12 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
 		<html lang="en">
 			<head>
-				<Meta />
+				<HeadContent />
 			</head>
 			<body>
 				{children}
-				<ScrollRestoration />
+				<Toaster richColors />
+				<TanStackRouterDevtools position="bottom-left" />
 				<Scripts />
 			</body>
 		</html>
