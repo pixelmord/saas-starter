@@ -1,4 +1,15 @@
 packages:
-  - "apps/*"
-  - "packages/*"
-  - "tools/*"
+  - apps/*
+  - packages/*
+  - tools/*
+
+ignoredBuiltDependencies:
+  - dtrace-provider
+
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - core-js-pure
+  - esbuild
+  - msw
+  - sharp
+  - spawn-sync
