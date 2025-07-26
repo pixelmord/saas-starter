@@ -43,7 +43,7 @@ export const SignIn = () => {
 					if (ctx.data.twoFactorRedirect) {
 						//await navigate({ to: '/verify-2fa' })
 					} else {
-						await navigate({ to: "/client-only" });
+						await navigate({ to: "/app" });
 					}
 				},
 				onError: (ctx) => {
@@ -392,6 +392,7 @@ export const SignIn = () => {
 								href="https://better-auth.com"
 								className="underline"
 								target="_blank"
+								rel="noopener"
 							>
 								<span className="dark:text-orange-200/90">better-auth.</span>
 							</a>

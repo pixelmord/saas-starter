@@ -1,6 +1,4 @@
 import { convexClient } from "@convex-dev/better-auth/client/plugins";
-// import { reactStartHelpers } from "@convex-dev/better-auth/react-start";
-import { createAuth } from "@repo/server/convex/auth";
 import {
 	emailOTPClient,
 	magicLinkClient,

@@ -3,36 +3,37 @@ import {
 	fetchSession,
 	getCookieName,
 } from "@convex-dev/better-auth/react-start";
-import { ConvexQueryClient } from "@convex-dev/react-query";
+import type { ConvexQueryClient } from "@convex-dev/react-query";
 import { createAuth } from "@repo/server/convex/auth";
 import { Toaster } from "@repo/ui/components/ui/sonner";
 import type { QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import {
 	createRootRouteWithContext,
 	HeadContent,
 	Outlet,
 	Scripts,
 	useRouteContext,
-	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie, getWebRequest } from "@tanstack/react-start/server";
-import { ConvexReactClient } from "convex/react";
+import type { ConvexReactClient } from "convex/react";
 import type * as React from "react";
-import { Loader } from "@/components/loader";
 import { authClient } from "@/lib/auth-client";
 import appCss from "../style.css?url";
 
 // Server side session request
 const fetchAuth = createServerFn({ method: "GET" }).handler(async () => {
-	const sessionCookieName = await getCookieName(createAuth);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const sessionCookieName = await getCookieName(createAuth as any);
 	console.log("sessionCookieName", sessionCookieName);
 	const token = getCookie(sessionCookieName);
 	const request = getWebRequest();
 
-	const { session } = await fetchSession(createAuth, request);
-	console.log("session", session, token);
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const { session } = await fetchSession(createAuth as any, request);
 	return {
 		userId: session?.user.id,
 		token,
@@ -106,6 +107,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				{children}
 				<Toaster richColors />
 				<TanStackRouterDevtools position="bottom-left" />
+				<ReactQueryDevtools buttonPosition="bottom-right" />
 				<Scripts />
 			</body>
 		</html>
