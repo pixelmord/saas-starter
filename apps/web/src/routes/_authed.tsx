@@ -39,15 +39,17 @@ function AppLayout() {
 			console.error("Logout failed:", error);
 		}
 	};
+	if (!currentUser) {
+		return null;
+	}
 
 	// Create sidebar data with user information
 	const sidebarData: AppSidebarData = {
 		...defaultSidebarData,
 		user: {
-			name: currentUser?.name || currentUser?.email || "User",
-			email: currentUser?.email || "",
-			avatar:
-				currentUser?.avatar || currentUser?.image || "/avatars/default.jpg",
+			name: currentUser.name || currentUser.email,
+			email: currentUser.email || "",
+			avatar: currentUser.avatar || currentUser.image || "/avatars/default.jpg",
 		},
 	};
 
