@@ -25,6 +25,7 @@ import {
 	SquareTerminal,
 } from "lucide-react";
 import type * as React from "react";
+import type { ComponentType } from "react";
 
 export interface AppSidebarData {
 	user: {
@@ -64,12 +65,14 @@ export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	data: AppSidebarData;
 	company?: AppSidebarCompanyInfo;
 	onLogout?: () => void;
+	LinkComponent?: ComponentType<any> | "a";
 }
 
 export function AppSidebar({
 	data = defaultSidebarData,
 	company = { name: "Acme Inc", plan: "Enterprise" },
 	onLogout,
+	LinkComponent = "a",
 	...props
 }: AppSidebarProps) {
 	const Logo = company.logo || Command;
@@ -83,7 +86,9 @@ export function AppSidebar({
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<SidebarMenuButton size="lg" asChild>
-							<a href="/">
+							<LinkComponent
+								{...(LinkComponent === "a" ? { href: "/" } : { to: "/" })}
+							>
 								<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
 									<Logo className="size-4" />
 								</div>
@@ -91,18 +96,26 @@ export function AppSidebar({
 									<span className="truncate font-medium">{company.name}</span>
 									<span className="truncate text-xs">{company.plan}</span>
 								</div>
-							</a>
+							</LinkComponent>
 						</SidebarMenuButton>
 					</SidebarMenuItem>
 				</SidebarMenu>
 			</SidebarHeader>
 			<SidebarContent>
-				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
-				<NavSecondary items={data.navSecondary} className="mt-auto" />
+				<NavMain items={data.navMain} LinkComponent={LinkComponent} />
+				<NavProjects projects={data.projects} LinkComponent={LinkComponent} />
+				<NavSecondary
+					items={data.navSecondary}
+					className="mt-auto"
+					LinkComponent={LinkComponent}
+				/>
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} onLogout={onLogout} />
+				<NavUser
+					user={data.user}
+					onLogout={onLogout}
+					LinkComponent={LinkComponent}
+				/>
 			</SidebarFooter>
 		</Sidebar>
 	);

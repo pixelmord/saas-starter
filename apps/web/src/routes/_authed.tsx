@@ -10,6 +10,7 @@ import { SidebarInset, SidebarProvider } from "@repo/ui/components/ui/sidebar";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import {
 	createFileRoute,
+	Link,
 	Outlet,
 	redirect,
 	useNavigate,
@@ -55,7 +56,11 @@ function AppLayout() {
 			<SidebarProvider className="flex flex-col">
 				<SiteHeader />
 				<div className="flex flex-1">
-					<AppSidebar data={sidebarData} onLogout={handleLogout} />
+					<AppSidebar
+						data={sidebarData}
+						onLogout={handleLogout}
+						LinkComponent={Link}
+					/>
 					<SidebarInset>
 						<Outlet />
 					</SidebarInset>

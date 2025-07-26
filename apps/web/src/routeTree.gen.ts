@@ -14,7 +14,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthedUserRouteImport } from './routes/_authed/user'
+import { Route as AuthedUserIndexRouteImport } from './routes/_authed/user/index'
 import { Route as AuthedAppIndexRouteImport } from './routes/_authed/app/index'
+import { Route as AuthedUserAccountRouteImport } from './routes/_authed/user/account'
 import { ServerRoute as ApiHelloServerRouteImport } from './routes/api/hello'
 import { ServerRoute as ApiAuthSplatServerRouteImport } from './routes/api/auth/$'
 
@@ -34,10 +37,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedUserRoute = AuthedUserRouteImport.update({
+  id: '/user',
+  path: '/user',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedUserIndexRoute = AuthedUserIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthedUserRoute,
+} as any)
 const AuthedAppIndexRoute = AuthedAppIndexRouteImport.update({
   id: '/app/',
   path: '/app/',
   getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedUserAccountRoute = AuthedUserAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthedUserRoute,
 } as any)
 const ApiHelloServerRoute = ApiHelloServerRouteImport.update({
   id: '/api/hello',
@@ -53,26 +71,42 @@ const ApiAuthSplatServerRoute = ApiAuthSplatServerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/sign-in': typeof SignInRoute
+  '/user': typeof AuthedUserRouteWithChildren
+  '/user/account': typeof AuthedUserAccountRoute
   '/app': typeof AuthedAppIndexRoute
+  '/user/': typeof AuthedUserIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/sign-in': typeof SignInRoute
+  '/user/account': typeof AuthedUserAccountRoute
   '/app': typeof AuthedAppIndexRoute
+  '/user': typeof AuthedUserIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/sign-in': typeof SignInRoute
+  '/_authed/user': typeof AuthedUserRouteWithChildren
+  '/_authed/user/account': typeof AuthedUserAccountRoute
   '/_authed/app/': typeof AuthedAppIndexRoute
+  '/_authed/user/': typeof AuthedUserIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/app'
+  fullPaths: '/' | '/sign-in' | '/user' | '/user/account' | '/app' | '/user/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/app'
-  id: '__root__' | '/' | '/_authed' | '/sign-in' | '/_authed/app/'
+  to: '/' | '/sign-in' | '/user/account' | '/app' | '/user'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/sign-in'
+    | '/_authed/user'
+    | '/_authed/user/account'
+    | '/_authed/app/'
+    | '/_authed/user/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -129,12 +163,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/user': {
+      id: '/_authed/user'
+      path: '/user'
+      fullPath: '/user'
+      preLoaderRoute: typeof AuthedUserRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/user/': {
+      id: '/_authed/user/'
+      path: '/'
+      fullPath: '/user/'
+      preLoaderRoute: typeof AuthedUserIndexRouteImport
+      parentRoute: typeof AuthedUserRoute
+    }
     '/_authed/app/': {
       id: '/_authed/app/'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthedAppIndexRouteImport
       parentRoute: typeof AuthedRoute
+    }
+    '/_authed/user/account': {
+      id: '/_authed/user/account'
+      path: '/account'
+      fullPath: '/user/account'
+      preLoaderRoute: typeof AuthedUserAccountRouteImport
+      parentRoute: typeof AuthedUserRoute
     }
   }
 }
@@ -157,11 +212,27 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface AuthedUserRouteChildren {
+  AuthedUserAccountRoute: typeof AuthedUserAccountRoute
+  AuthedUserIndexRoute: typeof AuthedUserIndexRoute
+}
+
+const AuthedUserRouteChildren: AuthedUserRouteChildren = {
+  AuthedUserAccountRoute: AuthedUserAccountRoute,
+  AuthedUserIndexRoute: AuthedUserIndexRoute,
+}
+
+const AuthedUserRouteWithChildren = AuthedUserRoute._addFileChildren(
+  AuthedUserRouteChildren,
+)
+
 interface AuthedRouteChildren {
+  AuthedUserRoute: typeof AuthedUserRouteWithChildren
   AuthedAppIndexRoute: typeof AuthedAppIndexRoute
 }
 
 const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedUserRoute: AuthedUserRouteWithChildren,
   AuthedAppIndexRoute: AuthedAppIndexRoute,
 }
 

@@ -1,5 +1,4 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,15 +16,18 @@ import {
 	useSidebar,
 } from "@repo/ui/components/ui/sidebar";
 import { Folder, type LucideIcon, Share, Trash2 } from "lucide-react";
+import type { ComponentType } from "react";
 
 export function NavProjects({
 	projects,
+	LinkComponent = "a",
 }: {
 	projects: {
 		name: string;
 		url: string;
 		icon: LucideIcon;
 	}[];
+	LinkComponent?: ComponentType<any> | "a";
 }) {
 	const { isMobile } = useSidebar();
 
@@ -36,10 +38,14 @@ export function NavProjects({
 				{projects.map((item) => (
 					<SidebarMenuItem key={item.name}>
 						<SidebarMenuButton asChild>
-							<a href={item.url}>
+							<LinkComponent
+								{...(LinkComponent === "a"
+									? { href: item.url }
+									: { to: item.url })}
+							>
 								<item.icon />
 								<span>{item.name}</span>
-							</a>
+							</LinkComponent>
 						</SidebarMenuButton>
 						<DropdownMenu>
 							<DropdownMenuTrigger asChild>

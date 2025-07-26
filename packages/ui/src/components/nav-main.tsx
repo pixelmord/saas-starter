@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronRightIcon } from "@radix-ui/react-icons";
-
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -19,9 +18,11 @@ import {
 	SidebarMenuSubItem,
 } from "@repo/ui/components/ui/sidebar";
 import type { LucideIcon } from "lucide-react";
+import type { ComponentType } from "react";
 
 export function NavMain({
 	items,
+	LinkComponent = "a",
 }: {
 	items: {
 		title: string;
@@ -33,6 +34,7 @@ export function NavMain({
 			url: string;
 		}[];
 	}[];
+	LinkComponent?: ComponentType<any> | "a";
 }) {
 	return (
 		<SidebarGroup>
@@ -42,10 +44,14 @@ export function NavMain({
 					<Collapsible key={item.title} asChild defaultOpen={item.isActive}>
 						<SidebarMenuItem>
 							<SidebarMenuButton asChild tooltip={item.title}>
-								<a href={item.url}>
+								<LinkComponent
+									{...(LinkComponent === "a"
+										? { href: item.url }
+										: { to: item.url })}
+								>
 									<item.icon />
 									<span>{item.title}</span>
-								</a>
+								</LinkComponent>
 							</SidebarMenuButton>
 							{item.items?.length ? (
 								<>
@@ -60,9 +66,13 @@ export function NavMain({
 											{item.items?.map((subItem) => (
 												<SidebarMenuSubItem key={subItem.title}>
 													<SidebarMenuSubButton asChild>
-														<a href={subItem.url}>
+														<LinkComponent
+															{...(LinkComponent === "a"
+																? { href: subItem.url }
+																: { to: subItem.url })}
+														>
 															<span>{subItem.title}</span>
-														</a>
+														</LinkComponent>
 													</SidebarMenuSubButton>
 												</SidebarMenuSubItem>
 											))}

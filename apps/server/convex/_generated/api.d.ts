@@ -15,6 +15,7 @@ import type * as emails_magicLink from "../emails/magicLink.js";
 import type * as emails_resetPassword from "../emails/resetPassword.js";
 import type * as emails_verifyEmail from "../emails/verifyEmail.js";
 import type * as emails_verifyOTP from "../emails/verifyOTP.js";
+import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as tasks from "../tasks.js";
 import type * as todos from "../todos.js";
@@ -41,6 +42,7 @@ declare const fullApi: ApiFromModules<{
   "emails/resetPassword": typeof emails_resetPassword;
   "emails/verifyEmail": typeof emails_verifyEmail;
   "emails/verifyOTP": typeof emails_verifyOTP;
+  files: typeof files;
   http: typeof http;
   tasks: typeof tasks;
   todos: typeof todos;

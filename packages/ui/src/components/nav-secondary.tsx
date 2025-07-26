@@ -7,9 +7,11 @@ import {
 } from "@repo/ui/components/ui/sidebar";
 import type { LucideIcon } from "lucide-react";
 import type * as React from "react";
+import type { ComponentType } from "react";
 
 export function NavSecondary({
 	items,
+	LinkComponent = "a",
 	...props
 }: {
 	items: {
@@ -17,6 +19,7 @@ export function NavSecondary({
 		url: string;
 		icon: LucideIcon;
 	}[];
+	LinkComponent?: ComponentType<any> | "a";
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
 	return (
 		<SidebarGroup {...props}>
@@ -25,10 +28,14 @@ export function NavSecondary({
 					{items.map((item) => (
 						<SidebarMenuItem key={item.title}>
 							<SidebarMenuButton asChild size="sm">
-								<a href={item.url}>
+								<LinkComponent
+									{...(LinkComponent === "a"
+										? { href: item.url }
+										: { to: item.url })}
+								>
 									<item.icon />
 									<span>{item.title}</span>
-								</a>
+								</LinkComponent>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					))}

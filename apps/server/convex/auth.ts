@@ -7,10 +7,11 @@ import {
 import { convex } from "@convex-dev/better-auth/plugins";
 import { betterAuth } from "better-auth";
 import { emailOTP, magicLink, twoFactor } from "better-auth/plugins";
+import { v } from "convex/values";
 import { asyncMap } from "convex-helpers";
 import { api, components, internal } from "./_generated/api";
 import type { DataModel, Id } from "./_generated/dataModel";
-import { type GenericCtx, query } from "./_generated/server";
+import { type GenericCtx, mutation, query } from "./_generated/server";
 import {
 	sendEmailVerification,
 	sendMagicLink,
@@ -152,5 +153,39 @@ export const getCurrentUser = query({
 			...user,
 			...userMetadata,
 		};
+	},
+});
+
+// Update user profile mutation
+export const updateUserProfile = mutation({
+	args: {
+		name: v.optional(v.string()),
+		avatarStorageId: v.optional(v.id("_storage")),
+	},
+	handler: async (ctx, args) => {
+		// Get user metadata from Better Auth
+		const userMetadata = await betterAuthComponent.getAuthUser(ctx);
+		if (!userMetadata) {
+			throw new Error("User not authenticated");
+		}
+
+		const userId = userMetadata.userId as Id<"users">;
+
+		// Get avatar URL if storage ID provided
+		let avatarUrl: string | undefined;
+		if (args.avatarStorageId) {
+			avatarUrl = await ctx.storage.getUrl(args.avatarStorageId);
+		}
+
+		// Update the user record in our database
+		await ctx.db.patch(userId, {
+			avatar: avatarUrl,
+		});
+
+		// Note: Better Auth manages user profile data (name, email, etc.) separately
+		// Our local database only stores the avatar URL for quick access
+		// Name updates would need to be handled through Better Auth's user update flows
+
+		return { success: true };
 	},
 });

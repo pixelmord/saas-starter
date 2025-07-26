@@ -1,7 +1,6 @@
 "use client";
 
 import { ComponentPlaceholderIcon } from "@radix-ui/react-icons";
-
 import {
 	Avatar,
 	AvatarFallback,
@@ -23,10 +22,12 @@ import {
 	useSidebar,
 } from "@repo/ui/components/ui/sidebar";
 import { BadgeCheck, Bell, LogOut, MoreVertical, Sparkles } from "lucide-react";
+import type { ComponentType } from "react";
 
 export function NavUser({
 	user,
 	onLogout,
+	LinkComponent = "a",
 }: {
 	user: {
 		name: string;
@@ -34,6 +35,7 @@ export function NavUser({
 		avatar: string;
 	};
 	onLogout?: () => void;
+	LinkComponent?: ComponentType<any> | "a";
 }) {
 	const { isMobile } = useSidebar();
 
@@ -84,9 +86,15 @@ export function NavUser({
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
 						<DropdownMenuGroup>
-							<DropdownMenuItem>
-								<BadgeCheck />
-								Account
+							<DropdownMenuItem asChild>
+								<LinkComponent
+									{...(LinkComponent === "a"
+										? { href: "/user/account" }
+										: { to: "/user/account" })}
+								>
+									<BadgeCheck />
+									Account
+								</LinkComponent>
 							</DropdownMenuItem>
 							<DropdownMenuItem>
 								<ComponentPlaceholderIcon />
