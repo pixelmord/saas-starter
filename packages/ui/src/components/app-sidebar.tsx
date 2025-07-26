@@ -63,11 +63,13 @@ export interface AppSidebarCompanyInfo {
 export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
 	data: AppSidebarData;
 	company?: AppSidebarCompanyInfo;
+	onLogout?: () => void;
 }
 
 export function AppSidebar({
 	data = defaultSidebarData,
 	company = { name: "Acme Inc", plan: "Enterprise" },
+	onLogout,
 	...props
 }: AppSidebarProps) {
 	const Logo = company.logo || Command;
@@ -100,7 +102,7 @@ export function AppSidebar({
 				<NavSecondary items={data.navSecondary} className="mt-auto" />
 			</SidebarContent>
 			<SidebarFooter>
-				<NavUser user={data.user} />
+				<NavUser user={data.user} onLogout={onLogout} />
 			</SidebarFooter>
 		</Sidebar>
 	);

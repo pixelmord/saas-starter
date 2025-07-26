@@ -8,7 +8,13 @@ import {
 import { SiteHeader } from "@repo/ui/components/site-header";
 import { SidebarInset, SidebarProvider } from "@repo/ui/components/ui/sidebar";
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Outlet,
+	redirect,
+	useNavigate,
+} from "@tanstack/react-router";
+import { authClient } from "@/lib/auth-client";
 export const Route = createFileRoute("/_authed")({
 	beforeLoad: ({ context }) => {
 		if (!context.userId) {
@@ -19,9 +25,19 @@ export const Route = createFileRoute("/_authed")({
 });
 
 function AppLayout() {
+	const navigate = useNavigate();
 	const { data: currentUser } = useSuspenseQuery(
 		convexQuery(api.auth.getCurrentUser, {}),
 	);
+
+	const handleLogout = async () => {
+		try {
+			await authClient.signOut();
+			await navigate({ to: "/" });
+		} catch (error) {
+			console.error("Logout failed:", error);
+		}
+	};
 
 	// Create sidebar data with user information
 	const sidebarData: AppSidebarData = {
@@ -39,7 +55,7 @@ function AppLayout() {
 			<SidebarProvider className="flex flex-col">
 				<SiteHeader />
 				<div className="flex flex-1">
-					<AppSidebar data={sidebarData} />
+					<AppSidebar data={sidebarData} onLogout={handleLogout} />
 					<SidebarInset>
 						<Outlet />
 					</SidebarInset>

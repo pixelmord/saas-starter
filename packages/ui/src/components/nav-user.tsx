@@ -1,6 +1,6 @@
 "use client";
 
-import { CaretSortIcon, ComponentPlaceholderIcon } from "@radix-ui/react-icons";
+import { ComponentPlaceholderIcon } from "@radix-ui/react-icons";
 
 import {
 	Avatar,
@@ -22,16 +22,18 @@ import {
 	SidebarMenuItem,
 	useSidebar,
 } from "@repo/ui/components/ui/sidebar";
-import { BadgeCheck, Bell, LogOut, Sparkles } from "lucide-react";
+import { BadgeCheck, Bell, LogOut, MoreVertical, Sparkles } from "lucide-react";
 
 export function NavUser({
 	user,
+	onLogout,
 }: {
 	user: {
 		name: string;
 		email: string;
 		avatar: string;
 	};
+	onLogout?: () => void;
 }) {
 	const { isMobile } = useSidebar();
 
@@ -52,7 +54,7 @@ export function NavUser({
 								<span className="truncate font-medium">{user.name}</span>
 								<span className="truncate text-xs">{user.email}</span>
 							</div>
-							<CaretSortIcon className="ml-auto size-4" />
+							<MoreVertical className="ml-auto size-4" />
 						</SidebarMenuButton>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent
@@ -96,7 +98,7 @@ export function NavUser({
 							</DropdownMenuItem>
 						</DropdownMenuGroup>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>
+						<DropdownMenuItem onClick={onLogout}>
 							<LogOut />
 							Log out
 						</DropdownMenuItem>
