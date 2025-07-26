@@ -1,3 +1,10 @@
+// Check that CONVEX_SITE_URL is defined
+if (!process.env.CONVEX_SITE_URL) {
+	throw new Error(
+		"CONVEX_SITE_URL environment variable is required but not set. Please set it to your Convex site URL.",
+	);
+}
+
 export default {
 	providers: [
 		{

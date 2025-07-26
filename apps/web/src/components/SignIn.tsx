@@ -341,6 +341,7 @@ export const SignIn = () => {
 								width="1em"
 								height="1em"
 								viewBox="0 0 24 24"
+								aria-hidden="true"
 							>
 								<path
 									fill="currentColor"
@@ -362,6 +363,7 @@ export const SignIn = () => {
 								width="0.98em"
 								height="1em"
 								viewBox="0 0 256 262"
+								aria-hidden="true"
 							>
 								<path
 									fill="#4285F4"

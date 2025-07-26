@@ -27,7 +27,6 @@ export const betterAuthComponent = new BetterAuth(components.betterAuth, {
 	verbose: true,
 });
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const baseURL = process.env.SITE_URL || "http://localhost:3001";
 
 export const createAuth = (ctx: GenericCtx) =>

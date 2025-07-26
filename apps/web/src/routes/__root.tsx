@@ -26,13 +26,13 @@ import appCss from "../style.css?url";
 
 // Server side session request
 const fetchAuth = createServerFn({ method: "GET" }).handler(async () => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	// biome-ignore lint/suspicious/noExplicitAny: better-auth requires generic type casting
 	const sessionCookieName = await getCookieName(createAuth as any);
 	console.log("sessionCookieName", sessionCookieName);
 	const token = getCookie(sessionCookieName);
 	const request = getWebRequest();
 
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	// biome-ignore lint/suspicious/noExplicitAny: better-auth requires generic type casting
 	const { session } = await fetchSession(createAuth as any, request);
 	return {
 		userId: session?.user.id,
