@@ -11,6 +11,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@repo/ui/components/ui/sidebar";
+import type { LucideIcon } from "lucide-react";
 import {
 	BookOpen,
 	Bot,
@@ -25,7 +26,88 @@ import {
 } from "lucide-react";
 import type * as React from "react";
 
-const data = {
+export interface AppSidebarData {
+	user: {
+		name: string;
+		email: string;
+		avatar: string;
+	};
+	navMain: {
+		title: string;
+		url: string;
+		icon: LucideIcon;
+		isActive?: boolean;
+		items?: {
+			title: string;
+			url: string;
+		}[];
+	}[];
+	navSecondary: {
+		title: string;
+		url: string;
+		icon: LucideIcon;
+	}[];
+	projects: {
+		name: string;
+		url: string;
+		icon: LucideIcon;
+	}[];
+}
+
+export interface AppSidebarCompanyInfo {
+	name: string;
+	plan: string;
+	logo?: LucideIcon;
+}
+
+export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+	data: AppSidebarData;
+	company?: AppSidebarCompanyInfo;
+}
+
+export function AppSidebar({
+	data = defaultSidebarData,
+	company = { name: "Acme Inc", plan: "Enterprise" },
+	...props
+}: AppSidebarProps) {
+	const Logo = company.logo || Command;
+
+	return (
+		<Sidebar
+			className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
+			{...props}
+		>
+			<SidebarHeader>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<SidebarMenuButton size="lg" asChild>
+							<a href="/">
+								<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+									<Logo className="size-4" />
+								</div>
+								<div className="grid flex-1 text-left text-sm leading-tight">
+									<span className="truncate font-medium">{company.name}</span>
+									<span className="truncate text-xs">{company.plan}</span>
+								</div>
+							</a>
+						</SidebarMenuButton>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarHeader>
+			<SidebarContent>
+				<NavMain items={data.navMain} />
+				<NavProjects projects={data.projects} />
+				<NavSecondary items={data.navSecondary} className="mt-auto" />
+			</SidebarContent>
+			<SidebarFooter>
+				<NavUser user={data.user} />
+			</SidebarFooter>
+		</Sidebar>
+	);
+}
+
+// Default data for backward compatibility and easy setup
+export const defaultSidebarData: AppSidebarData = {
 	user: {
 		name: "shadcn",
 		email: "m@example.com",
@@ -148,38 +230,3 @@ const data = {
 		},
 	],
 };
-
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-	return (
-		<Sidebar
-			className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
-			{...props}
-		>
-			<SidebarHeader>
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<SidebarMenuButton size="lg" asChild>
-							<a href="/">
-								<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-									<Command className="size-4" />
-								</div>
-								<div className="grid flex-1 text-left text-sm leading-tight">
-									<span className="truncate font-medium">Acme Inc</span>
-									<span className="truncate text-xs">Enterprise</span>
-								</div>
-							</a>
-						</SidebarMenuButton>
-					</SidebarMenuItem>
-				</SidebarMenu>
-			</SidebarHeader>
-			<SidebarContent>
-				<NavMain items={data.navMain} />
-				<NavProjects projects={data.projects} />
-				<NavSecondary items={data.navSecondary} className="mt-auto" />
-			</SidebarContent>
-			<SidebarFooter>
-				<NavUser user={data.user} />
-			</SidebarFooter>
-		</Sidebar>
-	);
-}

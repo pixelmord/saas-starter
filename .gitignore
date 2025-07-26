@@ -35,6 +35,7 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+.cache
 
 # Added by Claude Task Master
 # Logs
@@ -59,3 +60,4 @@ tasks/
 .cache
 .output
 .vinxi
+
