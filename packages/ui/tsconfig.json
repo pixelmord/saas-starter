@@ -6,7 +6,12 @@
 		"forceConsistentCasingInFileNames": true,
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@repo/ui": ["./src"],
+			"@repo/ui/*": ["./src/*"],
+			"@repo/ui/components/*": ["./src/components/*"],
+			"@repo/ui/hooks/*": ["./src/hooks/*"],
+			"@repo/ui/lib/*": ["./src/lib/*"],
+			"@repo/ui/types/*": ["./src/types/*"]
 		}
 	},
 	"include": ["src"],

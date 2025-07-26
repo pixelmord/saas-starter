@@ -1,0 +1,247 @@
+import { NavMain } from "@repo/ui/components/nav-main";
+import { NavProjects } from "@repo/ui/components/nav-projects";
+import { NavSecondary } from "@repo/ui/components/nav-secondary";
+import { NavUser } from "@repo/ui/components/nav-user";
+import {
+	Sidebar,
+	SidebarContent,
+	SidebarFooter,
+	SidebarHeader,
+	SidebarMenu,
+	SidebarMenuButton,
+	SidebarMenuItem,
+} from "@repo/ui/components/ui/sidebar";
+import type { LucideIcon } from "lucide-react";
+import {
+	BookOpen,
+	Bot,
+	Command,
+	Frame,
+	LifeBuoy,
+	Map as MapIcon,
+	PieChart,
+	Send,
+	Settings2,
+	SquareTerminal,
+} from "lucide-react";
+import type * as React from "react";
+import type { ComponentType } from "react";
+
+export interface AppSidebarData {
+	user: {
+		name: string;
+		email: string;
+		avatar: string;
+	};
+	navMain: {
+		title: string;
+		url: string;
+		icon: LucideIcon;
+		isActive?: boolean;
+		items?: {
+			title: string;
+			url: string;
+		}[];
+	}[];
+	navSecondary: {
+		title: string;
+		url: string;
+		icon: LucideIcon;
+	}[];
+	projects: {
+		name: string;
+		url: string;
+		icon: LucideIcon;
+	}[];
+}
+
+export interface AppSidebarCompanyInfo {
+	name: string;
+	plan: string;
+	logo?: LucideIcon;
+}
+
+export interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
+	data: AppSidebarData;
+	company?: AppSidebarCompanyInfo;
+	onLogout?: () => void;
+	LinkComponent?: ComponentType<any> | "a";
+}
+
+export function AppSidebar({
+	data = defaultSidebarData,
+	company = { name: "Acme Inc", plan: "Enterprise" },
+	onLogout,
+	LinkComponent = "a",
+	...props
+}: AppSidebarProps) {
+	const Logo = company.logo || Command;
+
+	return (
+		<Sidebar
+			className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
+			{...props}
+		>
+			<SidebarHeader>
+				<SidebarMenu>
+					<SidebarMenuItem>
+						<SidebarMenuButton size="lg" asChild>
+							<LinkComponent
+								{...(LinkComponent === "a" ? { href: "/" } : { to: "/" })}
+							>
+								<div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+									<Logo className="size-4" />
+								</div>
+								<div className="grid flex-1 text-left text-sm leading-tight">
+									<span className="truncate font-medium">{company.name}</span>
+									<span className="truncate text-xs">{company.plan}</span>
+								</div>
+							</LinkComponent>
+						</SidebarMenuButton>
+					</SidebarMenuItem>
+				</SidebarMenu>
+			</SidebarHeader>
+			<SidebarContent>
+				<NavMain items={data.navMain} LinkComponent={LinkComponent} />
+				<NavProjects projects={data.projects} LinkComponent={LinkComponent} />
+				<NavSecondary
+					items={data.navSecondary}
+					className="mt-auto"
+					LinkComponent={LinkComponent}
+				/>
+			</SidebarContent>
+			<SidebarFooter>
+				<NavUser
+					user={data.user}
+					onLogout={onLogout}
+					LinkComponent={LinkComponent}
+				/>
+			</SidebarFooter>
+		</Sidebar>
+	);
+}
+
+// Default data for backward compatibility and easy setup
+export const defaultSidebarData: AppSidebarData = {
+	user: {
+		name: "shadcn",
+		email: "m@example.com",
+		avatar: "/avatars/shadcn.jpg",
+	},
+	navMain: [
+		{
+			title: "Playground",
+			url: "#",
+			icon: SquareTerminal,
+			isActive: true,
+			items: [
+				{
+					title: "History",
+					url: "#",
+				},
+				{
+					title: "Starred",
+					url: "#",
+				},
+				{
+					title: "Settings",
+					url: "#",
+				},
+			],
+		},
+		{
+			title: "Models",
+			url: "#",
+			icon: Bot,
+			items: [
+				{
+					title: "Genesis",
+					url: "#",
+				},
+				{
+					title: "Explorer",
+					url: "#",
+				},
+				{
+					title: "Quantum",
+					url: "#",
+				},
+			],
+		},
+		{
+			title: "Documentation",
+			url: "#",
+			icon: BookOpen,
+			items: [
+				{
+					title: "Introduction",
+					url: "#",
+				},
+				{
+					title: "Get Started",
+					url: "#",
+				},
+				{
+					title: "Tutorials",
+					url: "#",
+				},
+				{
+					title: "Changelog",
+					url: "#",
+				},
+			],
+		},
+		{
+			title: "Settings",
+			url: "#",
+			icon: Settings2,
+			items: [
+				{
+					title: "General",
+					url: "#",
+				},
+				{
+					title: "Team",
+					url: "#",
+				},
+				{
+					title: "Billing",
+					url: "#",
+				},
+				{
+					title: "Limits",
+					url: "#",
+				},
+			],
+		},
+	],
+	navSecondary: [
+		{
+			title: "Support",
+			url: "#",
+			icon: LifeBuoy,
+		},
+		{
+			title: "Feedback",
+			url: "#",
+			icon: Send,
+		},
+	],
+	projects: [
+		{
+			name: "Design Engineering",
+			url: "#",
+			icon: Frame,
+		},
+		{
+			name: "Sales & Marketing",
+			url: "#",
+			icon: PieChart,
+		},
+		{
+			name: "Travel",
+			url: "#",
+			icon: MapIcon,
+		},
+	],
+};

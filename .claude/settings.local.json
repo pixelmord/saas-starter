@@ -1,0 +1,12 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(pnpm lint:*)",
+			"Bash(biome format:*)",
+			"Bash(git add:*)",
+			"Bash(git commit:*)",
+			"Bash(pnpm check-types:*)"
+		],
+		"deny": []
+	}
+}
