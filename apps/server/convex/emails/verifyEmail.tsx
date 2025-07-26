@@ -22,9 +22,13 @@ export default function VerifyEmail({
 			brandLogoUrl={brandLogoUrl}
 		>
 			<Heading style={styles.h1}>Verify your email</Heading>
+			<Text style={styles.text}>
+				Click the button below to verify your email address.
+			</Text>
 			<Link
 				href={url}
 				target="_blank"
+				rel="noopener noreferrer"
 				style={{
 					...styles.link,
 					display: "block",

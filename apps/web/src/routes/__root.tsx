@@ -28,7 +28,6 @@ import appCss from "../style.css?url";
 const fetchAuth = createServerFn({ method: "GET" }).handler(async () => {
 	// biome-ignore lint/suspicious/noExplicitAny: better-auth requires generic type casting
 	const sessionCookieName = await getCookieName(createAuth as any);
-	console.log("sessionCookieName", sessionCookieName);
 	const token = getCookie(sessionCookieName);
 	const request = getWebRequest();
 

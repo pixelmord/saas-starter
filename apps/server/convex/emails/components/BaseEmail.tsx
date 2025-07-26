@@ -8,10 +8,9 @@ import {
 	Preview,
 	Text,
 } from "@react-email/components";
-import React from "react";
+import React, { type PropsWithChildren } from "react";
 
-export interface BaseEmailProps {
-	children: React.ReactNode;
+export interface BaseEmailProps extends PropsWithChildren {
 	previewText: string;
 	footerLinks?: Array<{ text: string; href: string }>;
 	footerText?: string;
@@ -104,6 +103,7 @@ export function BaseEmail({
 								<Link
 									href={link.href}
 									target="_blank"
+									rel="noopener noreferrer"
 									style={{ ...styles.link, color: "#898989" }}
 								>
 									{link.text}

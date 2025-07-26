@@ -24,11 +24,14 @@ const publicAuthFunctions: PublicAuthFunctions = api.auth;
 export const betterAuthComponent = new BetterAuth(components.betterAuth, {
 	authFunctions,
 	publicAuthFunctions,
-	verbose: true,
+	verbose: process.env.NODE_ENV === "development",
 });
 
 const baseURL = process.env.SITE_URL || "http://localhost:3001";
 
+if (!process.env.GITHUB_CLIENT_ID || !process.env.GITHUB_CLIENT_SECRET) {
+	throw new Error("GitHub OAuth credentials are required");
+}
 export const createAuth = (ctx: GenericCtx) =>
 	betterAuth({
 		baseURL,

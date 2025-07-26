@@ -19,7 +19,7 @@ import {
 	TooltipTrigger,
 } from "@repo/ui/components/ui/tooltip";
 import { useIsMobile } from "@repo/ui/hooks/use-mobile";
-import { cn } from "@repo/ui/lib//utils";
+import { cn } from "@repo/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
